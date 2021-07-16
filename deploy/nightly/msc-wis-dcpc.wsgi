@@ -37,4 +37,4 @@ os.environ['MSC_WIS_DCPC_URL'] = 'https://geomet-dev-03-nightly.cmc.ec.gc.ca/msc
 os.environ['PYCSW_CONFIG'] = 'data/web/msc-wis-dcpc-nightly/latest/msc-wis-dcpc/deploy/nightly/msc-wis-dcpc-pycsw-config.cfg'
 
 
-from msc_wis_dcpc.flask_app import APP as application
+from pycsw.wsgi_flask import APP as application

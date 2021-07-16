@@ -46,7 +46,7 @@ cd $BASEDIR
 
 for f in `find . -type d -name "msc-wis-dcpc-20*"`
 do
-    DATETIME2=`echo $f | awk -F- '{print $3}' | awk -F. '{print $1}'`
+    DATETIME2=`echo $f | awk -F- '{print $4}' | awk -F. '{print $1}'`
     let DIFF=(`date +%s -d $DATETIME`-`date +%s -d $DATETIME2`)/86400
     if [ $DIFF -gt $DAYSTOKEEP ]; then
         rm -fr $f
@@ -55,13 +55,13 @@ done
 
 rm -fr latest
 echo "Generating nightly build for $TIMESTAMP"
-python3.6 -m venv --system-site-packages $NIGHTLYDIR && cd $NIGHTLYDIR
+python3.6 -m venv $NIGHTLYDIR && cd $NIGHTLYDIR
 source bin/activate
 git clone $MSC_WIS_DCPC_GITREPO
 git clone $PYCSW_GITREPO
 cd msc-wis-dcpc
 cd ../pycsw
-pip install cython "pyproj<3"
+pip install cython "pyproj<3" OWSLib
 python3 setup.py install
 pip3 install -r requirements-standalone.txt
 cd ..

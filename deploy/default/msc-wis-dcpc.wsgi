@@ -37,4 +37,4 @@ os.environ['MSC_WIS_DCPC_URL'] = 'https://geo.wxod-dev.cmc.ec.gc.ca/wis/catalogu
 os.environ['PYCSW_CONFIG'] = '/opt/msc-wis-dcpc/conf/msc-wis-dcpc-pycsw-config.cfg'
 
 
-from msc_wis_dcpc.flask_app import APP as application
+from pycsw.wsgi_flask import APP as application
