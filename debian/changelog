@@ -1,0 +1,5 @@
+msc-wis-dcpc (0.1.0) bionic; urgency=medium
+
+  * initial Debian packaging
+
+ -- Tom Kralidis <tom.kralidis@ec.gc.ca>  Fri, 16 Jul 2021 17:57:05 +0000
