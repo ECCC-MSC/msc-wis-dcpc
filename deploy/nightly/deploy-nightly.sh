@@ -61,6 +61,7 @@ git clone $MSC_WIS_DCPC_GITREPO
 git clone $PYCSW_GITREPO
 cd msc-wis-dcpc
 cd ../pycsw
+pip install cython "pyproj<3"
 python3 setup.py install
 pip3 install -r requirements-standalone.txt
 cd ..

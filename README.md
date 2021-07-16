@@ -32,6 +32,7 @@ git clone https://github.com/geopython/pycsw.git
 cd pycsw
 python setup.py install
 pip install -r requirements-standalone.txt
+cd ..
 
 # clone codebase and install
 git clone https://github.com/ECCC-MSC/msc-wis-dcpc.git
