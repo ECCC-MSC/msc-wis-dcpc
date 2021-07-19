@@ -1,4 +1,4 @@
-[![Build Status](https://github.com/ECCC-MSC/msc-wis-dcpc/workflows/build%20%E2%9A%99%EF%B8%8F/badge.svg)](https://github.com/ECCC-MSC/msc-wis-dcpc/actions)
+[![Build Status](https://github.com/ECCC-MSC/msc-wis-dcpc/workflows/test%20%E2%9A%99%EF%B8%8F/badge.svg)](https://github.com/ECCC-MSC/msc-wis-dcpc/actions)
 
 # msc-wis-dcpc
 
