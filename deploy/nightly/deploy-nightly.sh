@@ -33,12 +33,16 @@ PYCSW_GITREPO=https://github.com/geopython/pycsw.git
 MSC_WIS_DCPC_GITREPO=https://github.com/ECCC-MSC/msc-wis-dcpc.git
 DAYSTOKEEP=7
 MSC_WIS_DCPC_URL=https://geomet-dev-03-nightly.cmc.ec.gc.ca/msc-wis-dcpc/nightly/latest
+MSC_DISCOVERY_METADATA_REPO=https://gccode.ssc-spc.gc.ca/ec-msc/discovery-metadata/-/archive/master/discovery-metadata-master.zip
 
 # you should be okay from here
 
 DATETIME=`date +%Y%m%d`
 TIMESTAMP=`date +%Y%m%d.%H%M`
 NIGHTLYDIR=msc-wis-dcpc-$TIMESTAMP
+
+export MSC_WIS_DCPC_DATABASE_URI=sqlite:///$BASEDIR/$NIGHTLYDIR/data/records.db
+export MSC_WIS_DCPC_DATABASE_TABLE=records
 
 echo "Deleting nightly builds > $DAYSTOKEEP days old"
 
@@ -60,6 +64,7 @@ source bin/activate
 git clone $MSC_WIS_DCPC_GITREPO
 git clone $PYCSW_GITREPO
 cd msc-wis-dcpc
+python3 setup.py install
 cd ../pycsw
 pip install cython "pyproj<3" OWSLib
 python3 setup.py install
@@ -67,6 +72,20 @@ pip3 install -r requirements-standalone.txt
 cd ..
 
 cp msc-wis-dcpc/deploy/default/msc-wis-dcpc-pycsw-config.cfg msc-wis-dcpc/deploy/nightly
+
+echo "Generating metadata repository"
+
+rm -fr /tmp/discovery-metadata-master.zip /tmp/discovery-metadata-master/
+
+mkdir data
+curl -o /tmp/disovery-metadata-master.zip $MSC_DISCOVERY_METADATA_REPO
+unzip /tmp/disovery-metadata-master.zip -d /tmp
+pycsw-admin.py setup-db -c msc-wis-dcpc/deploy/nightly/msc-wis-dcpc-pycsw-config.cfg
+pycsw-admin.py load-records -c msc-wis-dcpc/deploy/nightly/msc-wis-dcpc-pycsw-config.cfg -p /tmp/discovery-metadata-master/legacy/wis/records -r -y
+#msc-wis-dcpc metadata add --type OGC:CSW --url https://geo.woudc.org/csw
+
 cd ..
+
+rm -fr /tmp/discovery-metadata-master.zip /tmp/discovery-metadata-master/
 
 ln -s $NIGHTLYDIR latest
