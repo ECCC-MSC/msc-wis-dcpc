@@ -55,6 +55,15 @@ python pycsw/wsgi_flask.py
 
 Server will be located at http://localhost:8000/csw
 
+### Managing metadata
+
+```bash
+# harvest a CSW's metadata
+msc-wis-dcpc metadata add --type OGC:CSW --url https://example.org/csw
+```
+
+Use the [pycsw-admin.py](https://docs.pycsw.org/en/latest/administration.html) utility for all other metadata repository workflows
+
 ### Sample Queries
 
 See HowTo page examples at:
