@@ -27,4 +27,17 @@
 #
 # =================================================================
 
+import click
+
+from msc_wis_dcpc.metadata import metadata
+
 __version__ = '0.1.0'
+
+
+@click.group()
+@click.version_option(version=__version__)
+def cli():
+    pass
+
+
+cli.add_command(metadata)

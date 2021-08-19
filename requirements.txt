@@ -1,2 +1,5 @@
+OWSLib
 pycsw
 pygeometa
+requests
+sqlalchemy
