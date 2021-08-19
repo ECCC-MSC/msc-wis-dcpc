@@ -29,49 +29,19 @@
 
 import logging
 
-import click
-
-from msc_wis_dcpc.resource.csw import OGCCSWResource
+from pycsw.core import repository
+import pycsw.core.admin
+import pycsw.core.config
 
 
 LOGGER = logging.getLogger(__name__)
 
 
-@click.group()
-def metadata():
-    """Metadata management"""
-    pass
+class Catalogue:
+    def __init__(self, database_uri):
+        LOGGER.debug('Setting up static context')
+        self.context = pycsw.core.config.StaticContext()
 
-
-@click.command()
-@click.pass_context
-@click.option('--type', '-t', 'type_',
-              type=click.Choice(['MSC:GeoMet:config', 'OGC:CSW']),
-              help='Resource type')
-@click.option('--url', '-u', help='URL')
-@click.option('--config', '-c', help='MSC GeoMet configuration file')
-@click.option('--mcf-dir', '-md', 'mcf_dir',
-              help='Directory of MCFs associated with MSC GeoMet')
-@click.option('--verbosity',
-              type=click.Choice(['ERROR', 'WARNING', 'INFO', 'DEBUG']),
-              help='Verbosity')
-def add(ctx, type_, url, config, mcf_dir, verbosity):
-    """Add to metadata catalogue"""
-
-    if verbosity is not None:
-        logging.basicConfig(level=getattr(logging, verbosity))
-
-    if type_ is None:
-        raise click.ClickException('Missing -t/--type')
-
-    if type_ == 'OGC:CSW':
-        if url is None:
-            raise click.ClickException('Missing -u/--url')
-        csw = OGCCSWResource(url)
-        csw.add_to_catalogue()
-    elif type_ == 'MSC:GeoMet:config':
-        if None in [config, mcf_dir]:
-            pass
-
-
-metadata.add_command(add)
+        LOGGER.debug('Initializing pycsw repository')
+        self.repo = repository.Repository(database_uri,
+                                          self.context, table='records')
