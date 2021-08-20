@@ -32,6 +32,7 @@ import logging
 import click
 
 from msc_wis_dcpc.resource.csw import OGCCSWResource
+from msc_wis_dcpc.resource.geomet import GeoMetResource
 
 
 LOGGER = logging.getLogger(__name__)
@@ -70,8 +71,12 @@ def add(ctx, type_, url, config, mcf_dir, verbosity):
         csw = OGCCSWResource(url)
         csw.add_to_catalogue()
     elif type_ == 'MSC:GeoMet:config':
-        if None in [config, mcf_dir]:
-            pass
+        if config is None:
+            raise click.ClickException('Missing -c/--config')
+        if mcf_dir is None:
+            raise click.ClickException('Missing -md/--mcf_dir')
+        geomet = GeoMetResource(config, mcf_dir)
+        geomet.add_to_catalogue()
 
 
 metadata.add_command(add)

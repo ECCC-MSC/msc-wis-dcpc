@@ -43,7 +43,7 @@ class Resource:
     def __init__(self):
         self.type = None
 
-    def add_to_catalogue(self, **kwargs: dict) -> bool:
+    def add_to_catalogue(self, **kwargs: dict):
         self.catalogue = Catalogue(os.environ.get('MSC_WIS_DCPC_DATABASE_URI'))
 
     def parse_and_upsert_metadata(self, xml: str):

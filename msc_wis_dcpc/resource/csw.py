@@ -78,5 +78,3 @@ class OGCCSWResource(Resource):
             startposition += pagesize
 
         LOGGER.info('Done')
-
-        return True
