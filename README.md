@@ -60,6 +60,9 @@ Server will be located at http://localhost:8000/csw
 ```bash
 # harvest a CSW's metadata
 msc-wis-dcpc metadata add --type OGC:CSW --url https://example.org/csw
+
+# harvest MSC GeoMet configuration and MCFs
+msc-wis-dcpc metadata add --type MSC:GeoMet:config --config /path/to/geomet-config.yml --mcf-dir /path/to/mcfs
 ```
 
 Use the [pycsw-admin.py](https://docs.pycsw.org/en/latest/administration.html) utility for all other metadata repository workflows
