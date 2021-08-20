@@ -83,6 +83,7 @@ unzip /tmp/disovery-metadata-master.zip -d /tmp
 pycsw-admin.py setup-db -c msc-wis-dcpc/deploy/nightly/msc-wis-dcpc-pycsw-config.cfg
 pycsw-admin.py load-records -c msc-wis-dcpc/deploy/nightly/msc-wis-dcpc-pycsw-config.cfg -p /tmp/discovery-metadata-master/legacy/wis/records -r -y
 msc-wis-dcpc metadata add --type OGC:CSW --url https://geo.woudc.org/csw
+msc-wis-dcpc metadata add --type MSC:GeoMet:config --config /data/web/geomet2-nightly/latest/build/etc/geomet.yml --mcf-dir /tmp/discovery-metadata-master
 
 cd ..
 
