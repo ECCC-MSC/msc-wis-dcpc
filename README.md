@@ -53,7 +53,7 @@ python pycsw/wsgi_flask.py
 
 ## Running
 
-Server will be located at http://localhost:8000/csw
+Server will be located at http://localhost:8000 with links to all supported search API endpoints
 
 ### Managing metadata
 
