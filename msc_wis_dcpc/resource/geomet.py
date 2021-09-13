@@ -35,6 +35,7 @@ from urllib.parse import urlencode
 import yaml
 
 from pygeometa.core import read_mcf
+from pygeometa.schemas.ogcapi_records import OGCAPIRecordOutputSchema
 from pygeometa.schemas.wmo_cmp import WMOCMPOutputSchema
 
 from msc_wis_dcpc.resource import Resource
@@ -61,7 +62,7 @@ class GeoMetResource(Resource):
             for key, value in d['layers'].items():
                 try:
                     identifier, metadata = self.generate_metadata(key, value)
-                    self.parse_and_upsert_metadata(metadata)
+                    self.catalogue.upsert_metadata(metadata)
                     passed += 1
                 except Exception as err:
                     failed += 1
@@ -91,14 +92,16 @@ class GeoMetResource(Resource):
 
         m['metadata']['identifier'] = identifier
 
-        m['identification']['title_en'] += f" - {layer_values['label_en']}"
-        m['identification']['title_fr'] += f" - {layer_values['label_fr']}"
+        m['identification']['title']['en'] += f" - {layer_values['label_en']}"
+        m['identification']['title']['fr'] += f" - {layer_values['label_fr']}"
 
         m['identification']['otherconstraints_wmo_data_policy'] = 'WMOEssential'  # noqa
         m['identification']['otherconstraints_wmo_gts_priority'] = 'GTSPriority1'  # noqa
 
         m['identification']['keywords']['wmo'] = {
-            'keywords_en': ['weatherObservations'],
+            'keywords': {
+                'en': ['weatherObservations']
+            },
             'keywords_type': 'theme'
         }
 
@@ -110,16 +113,24 @@ class GeoMetResource(Resource):
         }
 
         wms_link_base = {
-            'name_en': layer_values['label_en'],
-            'name_fr': layer_values['label_fr'],
+            'name': {
+                'en': layer_values['label_en'],
+                'fr': layer_values['label_fr']
+            },
             'type': 'OGC:WMS',
-            'description_en': m['identification']['abstract_en'],
-            'description_fr': m['identification']['abstract_fr'],
+            'description': {
+                'en': m['identification']['abstract']['en'],
+                'fr': m['identification']['abstract']['fr']
+            },
             'function': 'download',
-            'hnap_contenttype_en': 'Web Service',
-            'hnap_contenttype_fr': 'Service Web',
-            'format_en': 'WMS',
-            'format_fr': 'WMS',
+            'hnap_contenttype': {
+                'en': 'Web Service',
+                'fr': 'Service Web',
+            },
+            'format': {
+                'en': 'WMS',
+                'fr': 'WMS'
+            },
             'format_version': '1.3.0'
         }
 
@@ -153,14 +164,19 @@ class GeoMetResource(Resource):
         m['distribution']['wms_fra-CAN']['url'] = generate_url(
             self.url, wms_params)
 
+        if self.catalogue.type == 'pycsw':
+            output_schema = WMOCMPOutputSchema
+        elif self.catalogue.type == 'pygeoapi':
+            output_schema = OGCAPIRecordOutputSchema
+
         try:
-            xml_string = WMOCMPOutputSchema().write(m)
+            metadata = output_schema().write(m)
         except Exception as err:
             msg = f'ERROR {mcf}: {err}'
             LOGGER.error(msg)
             raise
 
-        return identifier, xml_string
+        return identifier, metadata
 
 
 def generate_url(url_base: str, url_params: str) -> str:

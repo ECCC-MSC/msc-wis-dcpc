@@ -41,6 +41,7 @@ DATETIME=`date +%Y%m%d`
 TIMESTAMP=`date +%Y%m%d.%H%M`
 NIGHTLYDIR=msc-wis-dcpc-$TIMESTAMP
 
+export MSC_WIS_DCPC_CATALOGUE_TYPE=pycsw
 export MSC_WIS_DCPC_DATABASE_URI=sqlite:///$BASEDIR/$NIGHTLYDIR/data/records.db
 export MSC_WIS_DCPC_DATABASE_TABLE=records
 

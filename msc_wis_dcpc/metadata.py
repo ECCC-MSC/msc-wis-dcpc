@@ -33,6 +33,7 @@ import click
 
 from msc_wis_dcpc.resource.csw import OGCCSWResource
 from msc_wis_dcpc.resource.geomet import GeoMetResource
+from msc_wis_dcpc.resource.msc_open_data import MSCOpenDataResource
 
 
 LOGGER = logging.getLogger(__name__)
@@ -47,8 +48,8 @@ def metadata():
 @click.command()
 @click.pass_context
 @click.option('--type', '-t', 'type_',
-              type=click.Choice(['MSC:GeoMet:config', 'OGC:CSW']),
-              help='Resource type')
+              type=click.Choice(['MSC:GeoMet:config', 'MSC:OpenData',
+                                 'OGC:CSW']), help='Resource type')
 @click.option('--url', '-u', help='URL')
 @click.option('--config', '-c', help='MSC GeoMet configuration file')
 @click.option('--mcf-dir', '-md', 'mcf_dir',
@@ -77,6 +78,11 @@ def add(ctx, type_, url, config, mcf_dir, verbosity):
             raise click.ClickException('Missing -md/--mcf_dir')
         geomet = GeoMetResource(config, mcf_dir)
         geomet.add_to_catalogue()
+    elif type_ == 'MSC:OpenData':
+        if mcf_dir is None:
+            raise click.ClickException('Missing -md/--mcf_dir')
+        mod = MSCOpenDataResource(mcf_dir)
+        mod.add_to_catalogue()
 
 
 metadata.add_command(add)

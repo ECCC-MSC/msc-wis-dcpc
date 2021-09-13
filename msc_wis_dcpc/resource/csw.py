@@ -72,7 +72,7 @@ class OGCCSWResource(Resource):
             for key, value in csw.records.items():
                 LOGGER.debug('Metadata: {value.xml}')
                 LOGGER.info('Saving {key} to repository')
-                self.parse_and_upsert_metadata(value.xml)
+                self.catalogue.upsert_metadata(value.xml)
             if csw.results['nextrecord'] == 0:
                 break
             startposition += pagesize

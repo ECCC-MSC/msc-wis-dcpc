@@ -17,8 +17,9 @@ Dependencies are listed in [requirements.txt](requirements.txt). Dependencies
 are automatically installed during msc-wis-dcpc installation.
 
 Dependencies of note:
- - [pycsw](https://pycsw.org)
  - [pygeometa](https://geopython.github.io/pygeometa)
+ - [pycsw](https://pycsw.org) (current default)
+ - [pygeoapi](https://pygeoapi.io)
 
 ### Installing msc-wis-dcpc
 ```bash
@@ -27,11 +28,19 @@ python3 -m venv --system-site-packages msc-wis-dcpc
 cd msc-wis-dcpc
 source bin/activate
 
+# for pycsw installations
 # clone pycsw and install
 git clone https://github.com/geopython/pycsw.git
 cd pycsw
 python setup.py install
 pip install -r requirements-standalone.txt
+cd ..
+
+# for pygeoapi installations
+# clone pygeoapi and install
+git clone https://github.com/geopython/pygeoapi.git
+cd pygeoapi
+python setup.py install
 cd ..
 
 # clone codebase and install
@@ -63,16 +72,26 @@ msc-wis-dcpc metadata add --type OGC:CSW --url https://example.org/csw
 
 # harvest MSC GeoMet configuration and MCFs
 msc-wis-dcpc metadata add --type MSC:GeoMet:config --config /path/to/geomet-config.yml --mcf-dir /path/to/mcfs
+
+# harvest MSC discovery metadata
+msc-wis-dcpc metadata add --type MSC:OpenData --mcf-dir /path/to/mcfs
 ```
 
+### pycsw
 Use the [pycsw-admin.py](https://docs.pycsw.org/en/latest/administration.html) utility for all other metadata repository workflows
+
+### pygeoapi
+Consult the pygeoapi [documentation](https://docs.pygeoapi.io/en/latest/data-publishing/ogcapi-records.html) for more information on publishing metadarta via OGC API - Records
 
 ### Sample Queries
 
 See HowTo page examples at:
 
-- https://gist.github.com/kalxas/6ecb06d61cdd487dc7f9
-- https://gist.github.com/kalxas/5ab6237b4163b0fdc930 
+- CSW
+  - https://gist.github.com/kalxas/6ecb06d61cdd487dc7f9
+  - https://gist.github.com/kalxas/5ab6237b4163b0fdc930 
+- OGC API - Records
+  - https://docs.pygeoapi.io/en/latest/tour.html#metadata-records
 
 ## Development
 

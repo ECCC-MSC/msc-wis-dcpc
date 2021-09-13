@@ -30,10 +30,7 @@
 import logging
 import os
 
-from pycsw.core import metadata as pycsw_metadata, util
-from pycsw.core.etree import etree
-
-from msc_wis_dcpc.catalogue import Catalogue
+from msc_wis_dcpc.catalogue import PycswCatalogue, PygeoapiCatalogue
 
 
 LOGGER = logging.getLogger(__name__)
@@ -44,42 +41,12 @@ class Resource:
         self.type = None
 
     def add_to_catalogue(self, **kwargs: dict):
-        self.catalogue = Catalogue(os.environ.get('MSC_WIS_DCPC_DATABASE_URI'))
+        catalogue_type = os.environ.get('MSC_WIS_DCPC_CATALOGUE_TYPE', 'pycsw')
+        catalogue_backend = os.environ.get('MSC_WIS_DCPC_DATABASE_URI', None)
 
-    def parse_and_upsert_metadata(self, xml: str):
-        LOGGER.debug('Parsing XML')
-        try:
-            xml = etree.fromstring(xml)
-        except Exception as err:
-            LOGGER.error(f'XML parsing failed: {err}')
-            raise
+        if catalogue_type == 'pycsw':
+            catalogue_init = PycswCatalogue
+        elif catalogue_type == 'pygeoapi':
+            catalogue_init = PygeoapiCatalogue
 
-        LOGGER.debug('Processing metadata')
-        try:
-            record = pycsw_metadata.parse_record(self.catalogue.context,
-                                                 xml, self.catalogue.repo)[0]
-            record.xml = record.xml.decode()
-            LOGGER.info(f'identifier: {record.identifier}')
-        except Exception as err:
-            LOGGER.error(f'Metadata parsing failed: {err}')
-            raise
-
-        if self.catalogue.repo.query_ids([record.identifier]):
-            LOGGER.info('Updating record')
-            try:
-                self.catalogue.repo.update(record)
-                LOGGER.info('record updated')
-            except Exception as err:
-                LOGGER.error(f'record update failed: {err}')
-                raise
-        else:
-            LOGGER.info('Inserting record')
-            try:
-                self.catalogue.repo.insert(record, 'local',
-                                           util.get_today_and_now())
-                LOGGER.info('record inserted')
-            except Exception as err:
-                LOGGER.error(f'record insertion failed: {err}')
-                raise
-
-        return
+        self.catalogue = catalogue_init(catalogue_type, catalogue_backend)

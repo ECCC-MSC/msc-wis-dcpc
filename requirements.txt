@@ -4,3 +4,4 @@ pygeometa
 PyYAML
 requests
 sqlalchemy
+tinydb
