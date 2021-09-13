@@ -27,27 +27,37 @@
 #
 # =================================================================
 
+import json
 import logging
-import os
 
-from msc_wis_dcpc.catalogue.pycsw import PycswCatalogue
-from msc_wis_dcpc.catalogue.pygeoapi import PygeoapiCatalogue
+from tinydb import Query, TinyDB
+
+from msc_wis_dcpc.catalogue import Catalogue
 
 
 LOGGER = logging.getLogger(__name__)
 
 
-class Resource:
-    def __init__(self):
-        self.type = None
+class PygeoapiCatalogue(Catalogue):
+    def __init__(self, type_, database_uri):
+        super().__init__(type_, database_uri)
 
-    def add_to_catalogue(self, **kwargs: dict):
-        catalogue_type = os.environ.get('MSC_WIS_DCPC_CATALOGUE_TYPE', 'pycsw')
-        catalogue_backend = os.environ.get('MSC_WIS_DCPC_DATABASE_URI', None)
+    def upsert_metadata(self, metadata: str) -> None:
+        json_record = json.loads(metadata)
 
-        if catalogue_type == 'pycsw':
-            catalogue_init = PycswCatalogue
-        elif catalogue_type == 'pygeoapi':
-            catalogue_init = PygeoapiCatalogue
+        anytext = ' '.join([
+            json_record['properties']['title'],
+            json_record['properties']['description']
+        ])
 
-        self.catalogue = catalogue_init(catalogue_type, catalogue_backend)
+        json_record['properties']['_metadata-anytext'] = anytext
+
+        db = TinyDB(self.backend)
+        record = Query()
+
+        try:
+            res = db.upsert(json_record, record.id == json_record['id'])
+            LOGGER.info(f"Record {json_record['id']} upserted with internal id {res}")  # noqa
+        except Exception as err:
+            LOGGER.error(f'record insertion failed: {err}')
+            raise

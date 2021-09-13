@@ -28,26 +28,14 @@
 # =================================================================
 
 import logging
-import os
-
-from msc_wis_dcpc.catalogue.pycsw import PycswCatalogue
-from msc_wis_dcpc.catalogue.pygeoapi import PygeoapiCatalogue
-
 
 LOGGER = logging.getLogger(__name__)
 
 
-class Resource:
-    def __init__(self):
-        self.type = None
+class Catalogue:
+    def __init__(self, type_: str, backend: str) -> None:
+        self.type = type_
+        self.backend = backend
 
-    def add_to_catalogue(self, **kwargs: dict):
-        catalogue_type = os.environ.get('MSC_WIS_DCPC_CATALOGUE_TYPE', 'pycsw')
-        catalogue_backend = os.environ.get('MSC_WIS_DCPC_DATABASE_URI', None)
-
-        if catalogue_type == 'pycsw':
-            catalogue_init = PycswCatalogue
-        elif catalogue_type == 'pygeoapi':
-            catalogue_init = PygeoapiCatalogue
-
-        self.catalogue = catalogue_init(catalogue_type, catalogue_backend)
+    def upsert_metadata(self, metadata: str) -> bool:
+        raise NotImplementedError()

@@ -27,7 +27,6 @@
 #
 # =================================================================
 
-import json
 import logging
 
 import pycsw.core.admin
@@ -35,19 +34,10 @@ import pycsw.core.config
 from pycsw.core import metadata as pycsw_metadata, repository, util
 from pycsw.core.etree import etree
 
-from tinydb import Query, TinyDB
+from msc_wis_dcpc.catalogue import Catalogue
 
 
 LOGGER = logging.getLogger(__name__)
-
-
-class Catalogue:
-    def __init__(self, type_: str, backend: str) -> None:
-        self.type = type_
-        self.backend = backend
-
-    def upsert_metadata(self, metadata: str) -> bool:
-        raise NotImplementedError()
 
 
 class PycswCatalogue(Catalogue):
@@ -96,28 +86,3 @@ class PycswCatalogue(Catalogue):
                 raise
 
         return
-
-
-class PygeoapiCatalogue(Catalogue):
-    def __init__(self, type_, database_uri):
-        super().__init__(type_, database_uri)
-
-    def upsert_metadata(self, metadata: str) -> None:
-        json_record = json.loads(metadata)
-
-        anytext = ' '.join([
-            json_record['properties']['title'],
-            json_record['properties']['description']
-        ])
-
-        json_record['properties']['_metadata-anytext'] = anytext
-
-        db = TinyDB(self.backend)
-        record = Query()
-
-        try:
-            res = db.upsert(json_record, record.id == json_record['id'])
-            LOGGER.info(f"Record {json_record['id']} upserted with internal id {res}")  # noqa
-        except Exception as err:
-            LOGGER.error(f'record insertion failed: {err}')
-            raise
