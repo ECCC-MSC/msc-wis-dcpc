@@ -61,7 +61,6 @@ class MSCOpenDataResource(Resource):
                         'template' in name, not name.endswith('yml')]):
                     continue
                 mcf_file = (f'{root}/{name}')
-                print("JJJ", mcf_file)
                 try:
                     identifier, metadata = self.generate_metadata(mcf_file)
                     self.catalogue.upsert_metadata(metadata)
