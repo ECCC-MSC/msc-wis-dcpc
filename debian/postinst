@@ -31,4 +31,4 @@
 DATADIR=/opt/msc-wis-dcpc/data/
 
 mkdir -p $DATADIR
-chown -R geoadm.geoadm $DATADIR
+chown -R geoadm:geoadm $DATADIR
