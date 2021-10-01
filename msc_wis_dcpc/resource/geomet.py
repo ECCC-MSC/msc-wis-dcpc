@@ -34,9 +34,12 @@ from typing import Tuple
 from urllib.parse import urlencode
 import yaml
 
-from pygeometa.core import read_mcf
-from pygeometa.schemas.ogcapi_records import OGCAPIRecordOutputSchema
-from pygeometa.schemas.wmo_cmp import WMOCMPOutputSchema
+try:
+    from pygeometa.core import read_mcf
+    from pygeometa.schemas.ogcapi_records import OGCAPIRecordOutputSchema
+    from pygeometa.schemas.wmo_cmp import WMOCMPOutputSchema
+except ImportError:
+    pass
 
 from msc_wis_dcpc.resource import Resource
 

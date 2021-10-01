@@ -30,7 +30,10 @@
 import json
 import logging
 
-from tinydb import Query, TinyDB
+try:
+    from tinydb import Query, TinyDB
+except ImportError:
+    pass
 
 from msc_wis_dcpc.catalogue import Catalogue
 
