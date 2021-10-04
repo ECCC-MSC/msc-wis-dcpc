@@ -28,7 +28,7 @@
 #
 # =================================================================
 
-DATADIR=/opt/msc-wis-dcpc/data/
+DATADIR=/data/msc-wis-dcpc/pycsw
 
 mkdir -p $DATADIR
 chown -R geoadm:geoadm $DATADIR

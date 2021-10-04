@@ -31,9 +31,9 @@ import os
 
 os.environ['MSC_WIS_DCPC_LOGGING_LOGLEVEL'] = 'ERROR'
 os.environ['MSC_WIS_DCPC_LOGGING_LOGFILE'] = '/tmp/msc-wis-dcpc.log'
-os.environ['MSC_WIS_DCPC_DATABASE_URI'] = 'sqlite:////opt/msc-wis-dcpc/data/records.db'
+os.environ['MSC_WIS_DCPC_DATABASE_URI'] = 'sqlite:////data/msc-wis-dcpc/pycsw/records.db'
 os.environ['MSC_WIS_DCPC_DATABASE_TABLE'] = 'records'
-os.environ['MSC_WIS_DCPC_URL'] = 'https://geo.wxod-dev.cmc.ec.gc.ca/wis/catalogue/csw'
+os.environ['MSC_WIS_DCPC_URL'] = 'https://api.wxod-dev.cmc.ec.gc.ca/wis/catalogue/csw'
 os.environ['PYCSW_CONFIG'] = '/opt/msc-wis-dcpc/conf/msc-wis-dcpc-pycsw-config.cfg'
 
 
