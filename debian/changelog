@@ -1,3 +1,9 @@
+msc-wis-dcpc (0.2.0) bionic; urgency=medium
+
+  * move database location from /opt/ to /data
+
+ -- Tom Kralidis <tom.kralidis@ec.gc.ca>  Tue, 05 Oct 2021 20:07:31 +0000
+
 msc-wis-dcpc (0.1.0) bionic; urgency=medium
 
   * initial Debian packaging
