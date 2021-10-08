@@ -1,3 +1,9 @@
+msc-wis-dcpc (0.2.1) bionic; urgency=medium
+
+  * align WSGI to pycsw 2.4
+
+ -- Tom Kralidis <tom.kralidis@ec.gc.ca>  Tue, 08 Oct 2021 13:17:52 +0000
+
 msc-wis-dcpc (0.2.0) bionic; urgency=medium
 
   * move database location from /opt/ to /data

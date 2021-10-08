@@ -31,7 +31,7 @@ import click
 
 from msc_wis_dcpc.metadata import metadata
 
-__version__ = '0.2.0'
+__version__ = '0.2.1'
 
 
 @click.group()
