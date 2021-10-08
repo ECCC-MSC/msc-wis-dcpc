@@ -37,4 +37,4 @@ os.environ['MSC_WIS_DCPC_URL'] = 'https://api.wxod-dev.cmc.ec.gc.ca/wis/catalogu
 os.environ['PYCSW_CONFIG'] = '/opt/msc-wis-dcpc/conf/msc-wis-dcpc-pycsw-config.cfg'
 
 
-from pycsw.wsgi_flask import APP as application
+from pycsw.wsgi import application
