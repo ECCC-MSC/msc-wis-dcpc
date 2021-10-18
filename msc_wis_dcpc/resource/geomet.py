@@ -101,13 +101,6 @@ class GeoMetResource(Resource):
         m['identification']['otherconstraints_wmo_data_policy'] = 'WMOEssential'  # noqa
         m['identification']['otherconstraints_wmo_gts_priority'] = 'GTSPriority1'  # noqa
 
-        m['identification']['keywords']['wmo'] = {
-            'keywords': {
-                'en': ['weatherObservations']
-            },
-            'keywords_type': 'theme'
-        }
-
         wms_params = {
             'service': 'WMS',
             'version': '1.3.0',
