@@ -67,7 +67,8 @@ git clone $PYCSW_GITREPO
 cd msc-wis-dcpc
 python3 setup.py install
 cd ../pycsw
-pip install cython "pyproj<3" OWSLib
+pip install cython "typing-extensions<4" "jsonschema==2.6.0" "jinja2==2.10" "importlib_metadata<2" "click==6.7"
+pip install "pyproj<3" OWSLib
 python3 setup.py install
 pip3 install -r requirements-standalone.txt
 cd ..
