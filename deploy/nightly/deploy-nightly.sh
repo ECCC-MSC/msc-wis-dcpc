@@ -32,7 +32,7 @@ BASEDIR=/data/web/msc-wis-dcpc-nightly
 PYCSW_GITREPO=https://github.com/geopython/pycsw.git
 MSC_WIS_DCPC_GITREPO=https://github.com/ECCC-MSC/msc-wis-dcpc.git
 DAYSTOKEEP=7
-MSC_WIS_DCPC_URL=https://geomet-dev-03-nightly.cmc.ec.gc.ca/msc-wis-dcpc/nightly/latest
+MSC_WIS_DCPC_URL=https://geomet-dev-22-nightly.cmc.ec.gc.ca/msc-wis-dcpc/nightly/latest
 MSC_DISCOVERY_METADATA_REPO=https://gccode.ssc-spc.gc.ca/ec-msc/discovery-metadata/-/archive/master/discovery-metadata-master.zip
 
 # you should be okay from here
