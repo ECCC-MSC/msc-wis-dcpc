@@ -2,7 +2,7 @@
 #
 # Author: Tom Kralidis <tom.kralidis@ec.gc.ca>
 #
-# Copyright (c) 2021 Tom Kralidis
+# Copyright (c) 2024 Tom Kralidis
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation
@@ -31,7 +31,7 @@ import click
 
 from msc_wis_dcpc.metadata import metadata
 
-__version__ = '0.2.1'
+__version__ = '0.3.0'
 
 
 @click.group()
