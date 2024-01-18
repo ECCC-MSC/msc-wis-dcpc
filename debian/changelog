@@ -1,3 +1,10 @@
+msc-wis-dcpc (0.3.0) focal; urgency=medium
+
+  * update for focal build
+  * fix server refs
+
+ -- Tom Kralidis <tom.kralidis@ec.gc.ca>  Thu, 18 Jan 2024 20:50:22 +0000
+
 msc-wis-dcpc (0.2.1) bionic; urgency=medium
 
   * align WSGI to pycsw 2.4
